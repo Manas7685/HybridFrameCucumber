@@ -1,22 +1,21 @@
 package com.utility;
 
 
-import org.openqa.selenium.By;
+
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
-
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.frmbase.MyHooks;
 
 import java.time.Duration;
+import java.util.List;
 
 public class Keyword {
 	
@@ -32,6 +31,25 @@ public class Keyword {
 	
 	public static void implicitWait(RemoteWebDriver driver, int timeOut) {
 		MyHooks.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeOut));
+	}
+	
+	
+	
+	
+	
+public static WebElement waitForVisibilityOfElement(RemoteWebDriver driver, WebElement element, int timeOut) {
+		
+		WebElement webElement = null;
+		
+		try {
+			WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(timeOut));
+			webElement = wait.until(ExpectedConditions.visibilityOf(element));
+		}catch(Throwable e) {
+			e.printStackTrace();
+		}
+		
+		return webElement;
+		
 	}
 	
 	public static void explicitWait(RemoteWebDriver driver, WebElement element, int timeOut )
@@ -109,12 +127,48 @@ public class Keyword {
 		}
 	}
 	
-	public static void ClickOn(WebElement elt)
+	
+public static WebElement waitForElement(WebElement element,long durationInSeconds) {
+		
+		WebElement webElement = null;
+		
+		try {
+			WebDriverWait wait = new WebDriverWait(MyHooks.driver,Duration.ofSeconds(durationInSeconds));
+			webElement = wait.until(ExpectedConditions.elementToBeClickable(element));
+		}catch(Throwable e) {
+			e.printStackTrace();
+		}
+		
+		return webElement;
+		
+	}
+	
+	
+public static void selectOptionInDropdown(WebElement element,String dropDownOption,long durationInSeconds) {
+		
+		WebElement webElement = waitForElement(element,durationInSeconds);
+		Select select = new Select(webElement);
+		select.selectByVisibleText(dropDownOption);
+		
+		
+	}
+	
+	public static String getTextOf(WebElement elt)
+	{
+		return elt.getText();
+	}
+	
+	public static String getTitleOf(WebElement elt)
+	{
+		return elt.getAttribute("title");
+	}
+	
+	public static void clickOn(WebElement elt)
 	{
 		elt.click();
 	}
 	
-	public static void MoveAndclickOn(WebElement ele) {
+	public static void moveAndclickOn(WebElement ele) {
 
 		Actions act = new Actions(MyHooks.driver);
 		act.moveToElement(ele).click().build().perform();
@@ -122,10 +176,11 @@ public class Keyword {
 	}
 	public static void mouseHover(WebElement ele) {
 
+		
 		Actions act = new Actions(MyHooks.driver);
 		act.moveToElement(ele).perform();
-
-	}
+		waitForElement(ele,200);
+}
 	
 	public static boolean isDisplayed(WebElement ele) {
 		boolean flag = false;
@@ -170,9 +225,19 @@ public class Keyword {
 		implicitWait(MyHooks.driver, 100);
 	}
 
-	
-	
-	
+	public static List<WebElement> getOptionsOfDropdown(WebElement elt) {
+		
+		Select select = new Select(elt);
+
+        List<WebElement> lst = select.getOptions();
+		return lst;
+	}
+
+	public static void sendKeys(WebElement searchbox, Keys return1) {
+		searchbox.sendKeys(return1);
+		
+	}
+
 }
 
 	

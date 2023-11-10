@@ -3,20 +3,37 @@ package com.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.Select;
 
 import com.frmbase.BaseClass;
-import com.frmbase.MyHooks;
+
 import com.utility.ConfigReader;
 import com.utility.Keyword;
-
-import io.cucumber.java.BeforeStep;
 
 public class HomePage 
 {
 	
-	@FindBy(css = "a.cart-contents")
+	@FindBy(css = "#site-header-cart > li:nth-child(1) > a")
 	private WebElement cartSymbol;
+	
+	//#site-header-cart > li:nth-child(1) > a
+	
+	@FindBy(css="li:nth-child(2) > div > div > p")
+	private WebElement cartSymbolpopup;
+	
+	
+	
+	@FindBy(css="li:nth-child(2) > div > div > p.woocommerce-mini-cart__total.total > strong")
+	WebElement minicart;
+	
+	
+	@FindBy(css="#site-header-cart > li:nth-child(2) > div > div")
+	WebElement minicartview;
+	
+	
+	
+	@FindBy(css="#site-header-cart li:nth-child(2) > div > div > p.woocommerce-mini-cart__buttons.buttons > a:nth-child(1)")
+	private WebElement viewcartOnMiniCartView;
 
 	@FindBy(css = "a[href='?add-to-cart=28']")
 	private WebElement addToCartButton1;
@@ -44,6 +61,9 @@ public class HomePage
 
 	@FindBy(css = "div:nth-child(2) > ul > li.page_item.page-item-7 > a")
 	private WebElement checkoutMenu;
+	
+	@FindBy(css="#site-header-cart > li:nth-child(2) > div > div > p.woocommerce-mini-cart__buttons.buttons > a:nth-child(2)")
+	private WebElement checkoutOnMiniCartView;
 
 	@FindBy(css = "div:nth-child(2) > ul > li.page_item.page-item-3342 > a")
 	private WebElement contactFormMenu;
@@ -73,17 +93,29 @@ public class HomePage
 	@FindBy(css = "a[href='https://demos.bellatrix.solutions/product/saturn-v/']")
 	
 	private WebElement saturnVSale1430012000;
+	
+	@FindBy(css="#site-header-cart > li:nth-child(1) > a > span.count")
+	WebElement numberOfCartItems;
+	
+	@FindBy(css="#site-header-cart > li:nth-child(1) > a > span.woocommerce-Price-amount.amount")
+	WebElement cartAmount;
 
 	@FindBy(css = "#woocommerce-product-search-field-0")
 	private WebElement searchBar;
 	
-	@FindBy(name = "orderbydiv:nth-child(2) > form > select")
+	@FindBy(css = "#main > div:nth-child(2) > form > select")
 	
 	private WebElement orderRelevanceDropdown1;
 
-	@FindBy(name = "#main > div:nth-child(4) > form > select")
+	@FindBy(css = "#main > div:nth-child(4) > form > select")
 	
 	private WebElement orderRelevanceDropdown2;
+	
+	@FindBy(css="ins>span[class*='woocommerce-Price-amount amount']>bdi")
+	java.util.List<WebElement> allPrices;
+	
+	@FindBy(css="#main > ul > li.product.type-product.post-28.status-publish.first.onbackorder.product_cat-big-rockets.has-post-thumbnail.sale.downloadable.taxable.shipping-taxable.purchasable.product-type-simple > a.button.product_type_simple.add_to_cart_button.ajax_add_to_cart")
+	WebElement falconAddToCart;
 	
 	  public void initTestWithHomepage() 
 	   {
@@ -103,324 +135,195 @@ public class HomePage
 	   }
 		
 	   public HomePage clickOnBellatrixLogo() {
-		   bellatrixLogo.click();
+		  Keyword.clickOn(bellatrixLogo);
 			return this;
 		}
 	   
-	   public HomePage clickOnBlogMenu() {
-			blogMenu.click();
+	   public BlogPage clickOnBlogMenu() {
+			Keyword.clickOn(blogMenu);
 			Keyword.waitUntilPageLoadsCompletely();
-			return this;
+			return new BlogPage();
 		}
-	   public HomePage clickOnCartMenu() {
-			blogMenu.click();
+	   public CartPage clickOnCartMenu() {
+		   Keyword.clickOn(cartMenu);
 			Keyword.waitUntilPageLoadsCompletely();
-			return this;
+			return new CartPage();
 		}
 	   
-	   public HomePage clickOnCheckoutMenu() {
-		   checkoutMenu.click();
+	   public CartPage clickOnCartButton() {
+		   Keyword.clickOn(viewcartOnMiniCartView);
 			Keyword.waitUntilPageLoadsCompletely();
-			return this;
+			return new CartPage();
+		}
+	   
+	   public CheckoutPage clickOnCheckoutMenu() {
+		   Keyword.clickOn(checkoutMenu);
+			Keyword.waitUntilPageLoadsCompletely();
+			return new CheckoutPage();
+		}
+	   
+	   public CheckoutPage clickOnCheckoutButton() {
+		   Keyword.clickOn(checkoutOnMiniCartView);
+			Keyword.waitUntilPageLoadsCompletely();
+			return new CheckoutPage();
 		}
 	   
 	   public HomePage clickOnContactFormMenu() {
-			contactFormMenu.click();
+		   Keyword.clickOn(contactFormMenu);
 			Keyword.waitUntilPageLoadsCompletely();
 			return this;
 		}
 	   
 	   public HomePage clickOnMyAccountMenu() {
-			myAccountMenu.click();
+		   Keyword.clickOn(myAccountMenu);
 			Keyword.waitUntilPageLoadsCompletely();
 			return this;
 		}
 	  
-	    public HomePage clickOnPromotionsMenu() 
+	    public PromotionPage clickOnPromotionsMenu() 
 	    {
 	      
-	        promotionsMenu.click();
+	    	Keyword.clickOn(promotionsMenu);
 	        Keyword.waitUntilPageLoadsCompletely();
-			return this;
+			return new PromotionPage();
 	        
 	    }
 
 	   
 	    public HomePage clickOnBuiltWithStorefrontWoocommerceLink() {
-	    	goToWoocommerce.click();
+	    	Keyword.clickOn(goToWoocommerce);
 			return this;
 		}
-}
-/**
- * 
- 
-
-	   
-	/*public HomePage clickCart0Link() {
-		cart0.click();
-		return this;
-	}
-
-	
-	public HomePage clickCart1Link() {
-		cart1.click();
-		return this;
-	}
-
-	
-	public HomePage clickCart2Link() {
-		cart2.click();
-		return this;
-	}
-*/
-	
 
 
-	
+		public HomePage clickOnHomeLink() {
+			Keyword.clickOn(homeMenu);
+			Keyword.waitUntilPageLoadsCompletely();
+			return this;
+			
+		}
+		
+		public int getNumberOfItemsPresentInCart()
+		{
+			String number[]=Keyword.getTextOf(this.numberOfCartItems).split(" ");
+			int numberOfCartItems=Integer.parseInt(number[0]);
+			return numberOfCartItems;
+		}
+		
+		public boolean isCartEmpty()
+		{
+			boolean status=false;
+			int number=getNumberOfItemsPresentInCart();
+			if(number==0)
+				status=true;
+			
+			return status;
+		}
+		public int getAmountOfCart()
+		{
+			int amount=Integer.parseInt(Keyword.getTextOf(this.cartAmount));
+			return amount;
+		}
+		
+		public void mouseHoverOnCartSymbol()
+		{
+			
+			Keyword.mouseHover(cartSymbol);
+		}
+		
+		public CartPage clickOnCartSymbol()
+		{
+			Keyword.mouseHover(cartSymbol);
+			return new CartPage();
+		}
+		
+		public String getToolTip()
+		{
+			return Keyword.getTitleOf(cartSymbol);
+		}
+		
+		public String getPageUrl()
+		{
+			return Keyword.getCurrURL();
+		}
+		
+		public boolean isPopupDisplayed()
+		{
+			return Keyword.isDisplayed(cartSymbolpopup);
+		}
+		
+		
+		public WebElement isMinicartViewDisplayed()
+		{
+			return Keyword.waitForVisibilityOfElement(BaseClass.getDriver(),minicartview,30);
+		}
+		
+		public boolean isMinicartViewDisplayedTotal()
+		{
+			return Keyword.isDisplayed(minicart);
+		}
+		
+		public String getTextOfPopup()
+		{
+			return Keyword.getTextOf(cartSymbolpopup);
+		}
 
-	
-	
-	
 
-	
+		public Object isDropdownDisplayed() {
+			
+			return Keyword.isDisplayed(orderRelevanceDropdown1);
+		}
+		
+		public void clickDropdown()
+		{
+			Keyword.moveAndclickOn(orderRelevanceDropdown1);
+		}
+		
+		public java.util.List<WebElement> getOptionsListOfDropdown()
+		{
+			return Keyword.getOptionsOfDropdown(orderRelevanceDropdown1);
+		}
 
-	
-	/**
-	public BellaTrixHomePage clickProtonRocketSale650000000450000000Link() {
-		protonRocketSale650000000450000000.click();
-		return this;
-	}
 
-	/**
-	 * Click on Protonm 15.00 Link.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage clickProtonm1500Link() {
-		protonm1500.click();
-		return this;
-	}
+		public void selectOption(String option) {
+			Keyword.selectOptionInDropdown(orderRelevanceDropdown1, option, 30);
+			
+		}
 
-	/**
-	 * Click on Read More Link.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage clickReadMoreLink() {
-		readMore.click();
-		return this;
-	}
 
-	/**
-	 * Click on Saturn V Sale 143.00 120.00 Link.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage clickSaturnVSale1430012000Link() {
-		saturnVSale1430012000.click();
-		return this;
-	}
+		public String getSelectedOption() {
+			
+			Select select = new Select(orderRelevanceDropdown1);
+			
+			return Keyword.getTextOf(select.getFirstSelectedOption());
+		}
 
-	
 
-	
-
-	
-
-	/**
-	 * Fill every fields in the page.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage fill() {
-		setSearchFor1DropDownListField();
-		setSearchFor2DropDownListField();
-		setSearchFor3DropDownListField();
-		setSearchFor4SearchField();
-		setSearchFor5TextareaField();
-		return this;
-	}
-
-	/**
-	 * Fill every fields in the page and submit it to target page.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage fillAndSubmit() {
-		fill();
-		return submit();
-	}
-
-	/**
-	 * Set default value to Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor1DropDownListField() {
-		return setSearchFor1DropDownListField(data.get("SEARCH_FOR_1"));
-	}
-
-	/**
-	 * Set value to Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor1DropDownListField(String searchFor1Value) {
-		searchFor1.sendKeys(searchFor1Value);
-		return this;
-	}
-
-	/**
-	 * Set default value to Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor2DropDownListField() {
-		return setSearchFor2DropDownListField(data.get("SEARCH_FOR_2"));
-	}
-
-	/**
-	 * Set value to Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor2DropDownListField(String searchFor2Value) {
-		new Select(searchFor2).selectByVisibleText(searchFor2Value);
-		return this;
-	}
-
-	/**
-	 * Set default value to Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor3DropDownListField() {
-		return setSearchFor3DropDownListField(data.get("SEARCH_FOR_3"));
-	}
-
-	/**
-	 * Set value to Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor3DropDownListField(String searchFor3Value) {
-		new Select(searchFor3).selectByVisibleText(searchFor3Value);
-		return this;
-	}
-
-	/**
-	 * Set default value to Search For Search field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor4SearchField() {
-		return setSearchFor4SearchField(data.get("SEARCH_FOR_4"));
-	}
-
-	/**
-	 * Set value to Search For Search field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor4SearchField(String searchFor4Value) {
-		searchFor4.sendKeys(searchFor4Value);
-		return this;
-	}
-
-	/**
-	 * Set default value to Search For Textarea field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor5TextareaField() {
-		return setSearchFor5TextareaField(data.get("SEARCH_FOR_5"));
-	}
-
-	/**
-	 * Set value to Search For Textarea field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage setSearchFor5TextareaField(String searchFor5Value) {
-		searchFor5.sendKeys(searchFor5Value);
-		return this;
-	}
-
-	/**
-	 * Submit the form to target page.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage submit() {
-		clickSearchButton();
-		return this;
-	}
-
-	/**
-	 * Unset default value from Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage unsetSearchFor2DropDownListField() {
-		return unsetSearchFor2DropDownListField(data.get("SEARCH_FOR_2"));
-	}
-
-	/**
-	 * Unset value from Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage unsetSearchFor2DropDownListField(String searchFor2Value) {
-		new Select(searchFor2).deselectByVisibleText(searchFor2Value);
-		return this;
-	}
-
-	/**
-	 * Unset default value from Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage unsetSearchFor3DropDownListField() {
-		return unsetSearchFor3DropDownListField(data.get("SEARCH_FOR_3"));
-	}
-
-	/**
-	 * Unset value from Search For Drop Down List field.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage unsetSearchFor3DropDownListField(String searchFor3Value) {
-		new Select(searchFor3).deselectByVisibleText(searchFor3Value);
-		return this;
-	}
-
-	/**
-	 * Verify that the page loaded completely.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public BellaTrixHomePage verifyPageLoaded() {
-		(new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return d.getPageSource().contains(pageLoadedText);
-			}
-		});
-		return this;
-	}
-
-	/**
-	 * Verify that current page URL matches the expected URL.
-	 *
-	 * @return the BellaTrixHomePage class instance.
-	 
-	public HomePage verifyPageUrl() {
-		(new WebDriverWait(BaseClass.getDriver(), timeout)).until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return d.getCurrentUrl().contains(pageUrl);
-			}
-		});
-		return this;
-	}
+		public java.util.List<WebElement> getPricesOfAllProducts() {
+			return allPrices;
+		}
+		
+		public HomePage addToCart()
+		{
+			Keyword.scrollWindow();
+			Keyword.clickOn(falconAddToCart);
+			Keyword.waitUntilPageLoadsCompletely();
+			return this;
+		}
+		
+		
+		
+		
 }
 
-*/
+
+	
+
+	
+	
+	
+
+	
+
+	
+	
